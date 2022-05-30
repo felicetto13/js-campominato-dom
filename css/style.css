@@ -31,3 +31,30 @@
     width: calc(var(--w-cell) * 7);
     height: calc(var(--w-cell) * 7);
 }
+.cell.bomb{
+    background-color: var(--bs-danger);
+
+}
+
+.popup {
+    width: calc(100% / 3);
+    padding: 2rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    background-color: white;
+}
+.overlay {
+    position: relative;
+    overflow: hidden;
+    background-color: rgba(0, 0, 0, .8);
+}
+.closeButton{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+}
+.flag{
+    background-color: var(--bs-warning);
+}

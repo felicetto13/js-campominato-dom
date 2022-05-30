@@ -27,9 +27,37 @@ Il computer deve generare 16 numeri casuali - cioè le bombe - compresi nello st
 
 */
 
+
+//funzione che determina la fine della partita
+function partitaTerminata(resultMatch, pointGame) {
+    const containerUnderGrid = document.createElement("div");
+    containerUnderGrid.classList.add("popup");
+    document.body.classList.add("overlay");
+    if (resultMatch) {
+        containerUnderGrid.innerHTML = `<h1 class="text-center">Hai Perso!</h1>
+        <p class="text-center">Hai totalizzato un punteggio di ${pointGame} punti.</p>
+        <p class="text-center">Riprova, sarai più fortunato!</p>
+        <span class="closeButton"><button type="button" class="btn border-0 btn-outline-dark" id="btn-close"><i class="fa-solid fa-xmark"></i></button></span>`
+    } else {
+        containerUnderGrid.innerHTML = `<h1 class="text-center">Hai Vinto!</h1>
+        <p class="text-center">Hai totalizzato un punteggio di ${pointGame} punti.</p>
+        <span class="closeButton"><button type="button" class="btn border-0 btn-outline-dark" id="btn-close"><i class="fa-solid fa-xmark"></i></button></span>
+        `
+    }
+
+    document.body.append(containerUnderGrid);
+    const btnClose = document.getElementById("btn-close");
+    btnClose.addEventListener("click", function () {
+        document.body.classList.remove("overlay");
+        containerUnderGrid.innerHTML = "";
+        containerUnderGrid.classList.remove("popup");
+    })
+}
 //genera la griglia del campo minato
-function gridGeneretor(cellNumbers, difficultLevels) {
+function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
     gridContainer.classList.add(difficultLevels);
+    let punteggio = 0;
+    let gameOver = false;
     //con un ciclo for creo un quadrato generando ad ogni ciclo un div
     for (let i = 1; i <= cellNumbers; i++) {
         //creo un elemento di tipo div che sarà la singola cella
@@ -40,26 +68,48 @@ function gridGeneretor(cellNumbers, difficultLevels) {
         cell.append(i.toString());
         //appendo il div al contenitore della griglia
         gridContainer.append(cell);
+        if (numbersBomb.includes(parseInt(cell.innerText))) {
+            cell.dataset.bomb = "true";
+        }
+        cell.addEventListener("contextmenu", function (e) {
+            e.preventDefault();
+            this.classList.toggle("flag");
 
-        
-        cell.addEventListener("click", function () {
-            this.classList.add("clicked");
         })
+
+        cell.addEventListener("click", function () {
+            if (this.classList.contains("bomb") || this.classList.contains("clicked") || gameOver) {
+                return;
+            }
+            this.classList.add("clicked");
+
+            if (numbersBomb.includes(parseInt(cell.innerText))) {
+                this.classList.add("bomb");
+                gameOver = true;
+                partitaTerminata(gameOver, punteggio);
+
+            }
+            else {
+                punteggio++;
+            }
+
+        })
+
     }
 
 }
 
 /* Il computer deve generare una sequenza di 16 numeri che equivalgono alle bombe nella griglia */
-function numBombGeneretor() {
+function numBombGeneretor(cellsNumbers) {
     let numBomb = [];
-    do{
-        const num = Math.floor((Math.random() * 100) + 1);
-        if(!(numBomb.includes(num))){
+    do {
+        const num = Math.floor((Math.random() * cellsNumbers) + 1);
+        if (!(numBomb.includes(num))) {
             numBomb.push(num)
         }
 
-    }while(numBomb.length < 16);
-    
+    } while (numBomb.length < 16);
+
     return numBomb;
 }
 
@@ -88,9 +138,10 @@ submitButton.addEventListener("click", function () {
             numCell = 49;
             break;
     }
-
-    gridGeneretor(numCell, selectValue);
+    const bombGenerate = numBombGeneretor(numCell);
+    gridGeneretor(numCell, selectValue, bombGenerate);
     // creo variabile per il contenitore della griglia
+
 
 })
 
