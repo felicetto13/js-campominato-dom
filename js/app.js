@@ -56,7 +56,7 @@ function partitaTerminata(resultMatch, pointGame) {
 //genera la griglia del campo minato
 function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
     gridContainer.classList.add(difficultLevels);
-    let punteggio = 0;
+    let punteggio = 1;
     let gameOver = false;
     //con un ciclo for creo un quadrato generando ad ogni ciclo un div
     for (let i = 1; i <= cellNumbers; i++) {
@@ -73,6 +73,9 @@ function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
         }
         cell.addEventListener("contextmenu", function (e) {
             e.preventDefault();
+            if (this.classList.contains("bomb") || this.classList.contains("clicked") || gameOver) {
+                return;
+            }
             this.classList.toggle("flag");
 
         })
@@ -82,6 +85,8 @@ function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
                 return;
             }
             this.classList.add("clicked");
+            this.classList.remove("flag");
+            
 
             if (numbersBomb.includes(parseInt(cell.innerText))) {
                 this.classList.add("bomb");
@@ -89,8 +94,10 @@ function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
                 partitaTerminata(gameOver, punteggio);
 
             }
-            else {
+            else if(punteggio < (cellNumbers - numbersBomb.length)){
                 punteggio++;
+            }else{
+                partitaTerminata(gameOver, punteggio);
             }
 
         })
