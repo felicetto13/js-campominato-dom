@@ -94,9 +94,11 @@ function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
                 partitaTerminata(gameOver, punteggio);
 
             }
-            else if(punteggio < (cellNumbers - numbersBomb.length)){
+            else{
                 punteggio++;
-            }else{
+            } 
+            if(punteggio === (cellNumbers - numbersBomb.length)){
+                
                 partitaTerminata(gameOver, punteggio);
             }
 
