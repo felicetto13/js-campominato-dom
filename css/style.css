@@ -1,0 +1,33 @@
+:root {
+    --w-cell: 30px;
+}
+.container-grid {
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.container-grid .cell {
+    width: var(--w-cell);
+    height: var(--w-cell);
+    border: 2px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.clicked {
+    background-color: var(--bs-info);
+}
+.container-grid.easy{
+    width: calc(var(--w-cell) * 10);
+    height: calc(var(--w-cell) * 10);
+}
+.container-grid.medium{
+    width: calc(var(--w-cell) * 9);
+    height: calc(var(--w-cell) * 9);
+}
+.container-grid.hard{
+    width: calc(var(--w-cell) * 7);
+    height: calc(var(--w-cell) * 7);
+}
