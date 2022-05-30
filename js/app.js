@@ -56,7 +56,7 @@ function partitaTerminata(resultMatch, pointGame) {
 //genera la griglia del campo minato
 function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
     gridContainer.classList.add(difficultLevels);
-    let punteggio = 1;
+    let punteggio = 0;
     let gameOver = false;
     //con un ciclo for creo un quadrato generando ad ogni ciclo un div
     for (let i = 1; i <= cellNumbers; i++) {
