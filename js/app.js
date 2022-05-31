@@ -27,9 +27,20 @@ Il computer deve generare 16 numeri casuali - cioè le bombe - compresi nello st
 
 */
 
+//funzione che scopre tutte le bombe
+
+function explodeBomb() {
+    const explodedBomb = document.querySelectorAll("div[data-bomb]")
+    for (let i = 0; i < explodedBomb.length; i++) {
+
+        explodedBomb[i].classList.add("bomb")
+    }
+}
+
 
 //funzione che determina la fine della partita
 function partitaTerminata(resultMatch, pointGame) {
+
     const containerUnderGrid = document.createElement("div");
     containerUnderGrid.classList.add("popup");
     document.body.classList.add("overlay");
@@ -84,21 +95,23 @@ function gridGeneretor(cellNumbers, difficultLevels, numbersBomb) {
             if (this.classList.contains("bomb") || this.classList.contains("clicked") || gameOver) {
                 return;
             }
-            this.classList.add("clicked");
-            this.classList.remove("flag");
             
+            this.classList.remove("flag");
+
 
             if (numbersBomb.includes(parseInt(cell.innerText))) {
+                explodeBomb();
                 this.classList.add("bomb");
                 gameOver = true;
                 partitaTerminata(gameOver, punteggio);
 
             }
-            else{
+            else {
+                this.classList.add("clicked");
                 punteggio++;
-            } 
-            if(punteggio === (cellNumbers - numbersBomb.length)){
-                
+            }
+            if (punteggio === (cellNumbers - numbersBomb.length)) {
+
                 partitaTerminata(gameOver, punteggio);
             }
 
