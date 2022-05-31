@@ -1,6 +1,13 @@
 :root {
     --w-cell: 30px;
 }
+
+header, footer{
+    height: 15vh;
+}
+main {
+    height: 70vh;
+}
 .container-grid {
     margin: 0 auto;
     display: flex;
